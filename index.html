@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dictionary App</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f7fc;padding:40px;text-align:center}
+input{padding:12px;width:300px}button{padding:12px 20px;margin-left:8px}
+.card{background:#fff;padding:20px;margin-top:20px;border-radius:10px;max-width:700px;margin-left:auto;margin-right:auto}
+</style>
+</head>
+<body>
+<h1>📖 Dictionary App</h1>
+<input id="word" placeholder="Enter a word">
+<button onclick="searchWord()">Search</button>
+<div id="result"></div>
+<script>
+async function searchWord(){
+const w=document.getElementById('word').value;
+const res=await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${w}`);
+const data=await res.json();
+if(data.title){document.getElementById('result').innerHTML='Word not found';return;}
+const item=data[0];
+document.getElementById('result').innerHTML=`<div class="card"><h2>${item.word}</h2><p>${item.meanings[0].definitions[0].definition}</p></div>`;
+}
+</script>
+</body>
+</html>
